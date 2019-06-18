@@ -1,0 +1,18 @@
+module euler1 {
+
+	def main() {
+		counter := 0;
+		out := 0;
+		
+	    while (counter < 1000){
+		    if (???) {
+				out := out + counter;
+			}
+			
+			counter := counter + 1;
+		}
+		
+		return out;
+	}
+
+}
