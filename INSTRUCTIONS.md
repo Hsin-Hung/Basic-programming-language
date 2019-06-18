@@ -30,7 +30,7 @@ write unit tests that test all the features of your language.  It should be clea
 
 
 ### 60% do stuff in your language
-pick 6 problems from project Euler and write solutions in your language.
+Pick 6 problems from [Project Euler](https://projecteuler.net/) and write solutions in your language.
 for instance if you follow the imperative hints you could solve https://projecteuler.net/problem=1 with the code that looks like
 ```
 module euler1 {
@@ -57,4 +57,4 @@ make sure you include your solutions in the example directory, and they are test
 
 If you would like to solve problems in your language not included on project Euler, Mark must approve a week before the due date.
 
-We will allow radically different projects as long as you clear it with Mark at least a week before the deadline.  Cool options include: compilation, type inference/checking/dependent types, anything from previous semesters.
+We will allow radically different projects as long as you clear it with Mark at least a week before the deadline.  Cool options include: compilation, type inference/checking/dependent types, anything from previous semesters([Fall-2018](https://github.com/BU-CS320/Spring-2019/blob/master/project/INSTRUCTIONS.md), [Spring-2019](https://github.com/BU-CS320/Spring-2019/blob/master/project/INSTRUCTIONS.md)).
