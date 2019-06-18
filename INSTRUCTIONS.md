@@ -19,10 +19,10 @@ Due 6/21
   
 ## Grading
 ### 20% on parser code and tests.
-* write a generator and shrinker for a reasonable subset of your AST.
+* write a [generator and shrinker](https://github.com/BU-CS320/Summer-2019-project/blob/master/test/ParserTest.hs#L19-L20) for a reasonable subset of your AST.
 * a fully parenthesized function from your parser to a string.
 * a fully pretty printing function from your parser to a string.
-quick check tests that parse the output of those functions.
+* quick check tests that parse the output of those functions.
 
 
 ### 20% on Eval code and tests.
