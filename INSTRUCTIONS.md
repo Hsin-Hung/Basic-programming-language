@@ -14,7 +14,7 @@ Due 6/21
     * check that it worked by typing ```git remote -v```.  You should see see the line ```upstream https://github.com/BU-CS320/Summer-2019-project.git (fetch)```
     * You always want to keep your assignment up to date by running ```git pull upstream master```, do that now
   * check the status of your repo: ```git status```
-* fill you the readme.md
+* fill in your [readme.md](readme.md)
   
   
 ## Grading
