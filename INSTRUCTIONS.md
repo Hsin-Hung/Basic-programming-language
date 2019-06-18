@@ -2,7 +2,7 @@
 There may be small changes before this is fianalized
 
 # Instructions
-Due ???
+Due 6/21
 
 ## Getting Started
 * Choose group members and a project name
