@@ -18,6 +18,7 @@ Due 6/21
   
   
 ## Grading
+This assumes that your project compiles.  There will be a heavy penalty if it does not.
 ### 20% on parser code and tests.
 * write a [generator and shrinker](https://github.com/BU-CS320/Summer-2019-project/blob/master/test/ParserTest.hs#L19-L20) for a reasonable subset of your AST.
 * a fully parenthesized function from your parser to a string.
