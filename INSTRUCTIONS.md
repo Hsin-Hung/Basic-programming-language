@@ -1,6 +1,3 @@
-## This is a draft
-There may be small changes before this is fianalized
-
 # Instructions
 Due 6/21
 
