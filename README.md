@@ -3,7 +3,7 @@
 Follow the [instructions](INSTRUCTIONS.md), use this space to document your project for yourself and the graders.
 
 ## Names
-put your names and BU ids here
+Hsin-Hung Wu U29935516
 ## Summary
 put a short summary here
 ## Plan
