@@ -15,6 +15,7 @@ data Stmt =
       Assign String Expr 
     | If Expr [Stmt] [Stmt]
     | While Expr [Stmt]
+    | Seq [Stmt]
     | Return Expr
     deriving Eq
           
@@ -26,12 +27,15 @@ and if you're fancy Print
 data Expr =
       Var String
     | LiteralInt Integer
-    | Plus Expr Expr | Minus Expr Expr | Mult Expr Expr | Div Expr Expr
+    | Plus Expr Expr | Minus Expr Expr | Mult Expr Expr | Div Expr Expr | Mod Expr Expr | Exp Expr Expr
 
     | LiteralBool Bool
     | And Expr Expr | Or Expr Expr | Not Expr
 
     | Lt Expr Expr | Lte Expr Expr | Gt Expr Expr | Gte Expr Expr | Eq Expr Expr | Ne Expr Expr
+
+    | Call String [Expr]
+
     deriving Eq
 
 {-should include: 
@@ -79,7 +83,7 @@ showFullyParenStmt (Assign v b) = "(" ++ v ++ " := " ++ (showFullyParenExpr b) +
 showFullyParenStmt (If b t e) = "(if" ++ (showFullyParenExpr b) ++ " then " ++ show t ++ " else " ++ show e
 showFullyParenStmt (While b d) = "(while" ++ (showFullyParenExpr b) ++ " do " ++ show d ++ ")"
 showFullyParenStmt (Return b) = "(return " ++ (showFullyParenExpr b) ++ ")"
-
+showFullyParenStmt (Seq xs) = show xs
 showFullyParenExpr :: Expr
                 -> String  -- ^ the fully parenthesized string representing the input Ast
 showFullyParenExpr (Var s) = "(" ++ s ++ ")"
@@ -88,6 +92,8 @@ showFullyParenExpr (Plus l r) = "(" ++ (showFullyParenExpr l) ++ "+" ++ (showFul
 showFullyParenExpr (Minus l r) = "(" ++ (showFullyParenExpr l) ++ "-" ++ (showFullyParenExpr r) ++ ")"
 showFullyParenExpr (Mult l r) = "(" ++ (showFullyParenExpr l) ++ "*" ++ (showFullyParenExpr r) ++ ")"
 showFullyParenExpr (Div l r) = "(" ++ (showFullyParenExpr l) ++ "/" ++ (showFullyParenExpr r) ++ ")"
+showFullyParenExpr (Mod l r) = "(" ++ (showFullyParenExpr l) ++ "%" ++ (showFullyParenExpr r) ++ ")" 
+showFullyParenExpr (Exp l r) = "(" ++ (showFullyParenExpr l) ++ "^" ++ (showFullyParenExpr r) ++ ")" 
 showFullyParenExpr (LiteralBool True) = "(" ++ "true" ++ ")"
 showFullyParenExpr (LiteralBool False) = "(" ++ "false" ++ ")"
 showFullyParenExpr (And l r) = "(" ++ (showFullyParenExpr l) ++ " && " ++ (showFullyParenExpr r) ++ ")"
@@ -99,6 +105,7 @@ showFullyParenExpr (Gt l r) = "(" ++ (showFullyParenExpr l) ++ " > " ++ (showFul
 showFullyParenExpr (Gte l r) = "(" ++ (showFullyParenExpr l) ++ " >= " ++ (showFullyParenExpr r) ++ ")"
 showFullyParenExpr (Eq l r) = "(" ++ (showFullyParenExpr l) ++ " == " ++ (showFullyParenExpr r) ++ ")"
 showFullyParenExpr (Ne l r) = "(" ++ (showFullyParenExpr l) ++ " != " ++ (showFullyParenExpr r) ++ ")"
+showFullyParenExpr (Call s es) = "(" ++ s ++ " " ++ show es ++ ")"
 
 
 
@@ -122,7 +129,7 @@ showPrettyStmt (Assign v b) i = parenthesize 1 i $ v ++ " := " ++ (showPrettyExp
 showPrettyStmt (If b t e) i = parenthesize 1 i $  "if " ++ (showPrettyExpr b 1) ++ " then " ++ show t ++ " else " ++ show e
 showPrettyStmt (While b d) i = parenthesize 1 i $ "while " ++ (showPrettyExpr b 1) ++ " do " ++ show d
 showPrettyStmt (Return b) i = parenthesize 1 i $ "return " ++ (showPrettyExpr b 1)
-
+showPrettyStmt (Seq xs) i = parenthesize 1 i $ show xs
 showPrettyExpr :: Expr
             -> Integer  -- ^ The precedence of the root expression, see the doc for 'HelpShow.parenthesize' for more detail
             -> String  -- ^ the minimally parenthesized string representing the input Ast
@@ -133,6 +140,7 @@ showPrettyExpr (LiteralBool True) _ = "true"
 showPrettyExpr (LiteralBool False) _ = "false"
 showPrettyExpr (Var s) _ = s
 
+showPrettyExpr (Call s es) i= parenthesize 1 i $ s ++ " " ++ (show es)
 showPrettyExpr (Or l r) i = parenthesize 2 i $ (showPrettyExpr l 2) ++ " || " ++ (showPrettyExpr r 3)
 showPrettyExpr (And l r) i = parenthesize 2 i $ (showPrettyExpr l 2) ++ " || " ++ (showPrettyExpr r 3)
 showPrettyExpr (Gt l r) i = parenthesize 4 i $ (showPrettyExpr l 4) ++ " > " ++ (showPrettyExpr r 5)
@@ -145,6 +153,9 @@ showPrettyExpr (Minus l r) i = parenthesize 4 i $ (showPrettyExpr l 4) ++ " - " 
 showPrettyExpr (Plus l r) i = parenthesize 4 i $ (showPrettyExpr l 4) ++ " + " ++ (showPrettyExpr r 5)
 showPrettyExpr (Mult l r) i = parenthesize 6 i $ (showPrettyExpr l 6) ++ " * " ++ (showPrettyExpr r 7)
 showPrettyExpr (Div l r) i = parenthesize 6 i $ (showPrettyExpr l 6) ++ " / " ++ (showPrettyExpr r 7)
-showPrettyExpr (Not l) i = parenthesize 8 i $ " ! " ++ (showPrettyExpr l 8)
+showPrettyExpr (Mod l r) i = parenthesize 6 i $ (showPrettyExpr l 6) ++ " % " ++ (showPrettyExpr r 7)
+showPrettyExpr (Exp l r) i = parenthesize 8 i $ (showPrettyExpr l 8) ++ " ^ " ++ (showPrettyExpr r 9)
+showPrettyExpr (Not l) i = parenthesize 10 i $ " ! " ++ (showPrettyExpr l 10)
+
 
 
