@@ -1,0 +1,13 @@
+module main{
+  def p2(){
+    prev:=1;
+    temp:=0;
+    val:=2;
+    total:=0;
+    while (val<=4000000){
+      if(val%2==0){
+        total:=total+val};
+        temp:=prev;
+        prev:=val;
+        val:=val+temp};
+      return total}}
