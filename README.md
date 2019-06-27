@@ -4,8 +4,11 @@ Follow the [instructions](INSTRUCTIONS.md), use this space to document your proj
 
 ## Names
 Hsin-Hung Wu U29935516
-Jaewoo Kang U00124157
+
 Ayla Choudhery U36861114
+
+Jaewoo Kang U00124157
+
 ## Summary
 put a short summary here
 ## Plan
