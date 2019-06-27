@@ -1,0 +1,15 @@
+module main{
+               def p3(){
+                 num:=600851475143;
+                 while(true){
+                   sf:=p3help(num);
+                   if(sf<num){
+                     num:=num/sf}
+                   else{return num}}};
+                def p3help(n){
+                  x:=2;
+                  while(x<n){
+                    if(n%x==0){
+                       return x};
+                    x:=x+1};
+                  return n}}
