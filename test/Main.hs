@@ -1,11 +1,20 @@
 module Main where
 
+import System.Environment
 import Test.Tasty
 
 import EvalTest
 import ParserTest
 
-main = defaultMain testSuite
+main = do setEnv "TASTY_TIMEOUT" "60s"
+          setEnv "TASTY_QUICKCHECK_TESTS" "1000"
+          setEnv "TASTY_QUICKCHECK_MAX_SIZE" "50"
+          defaultMain testSuite
+          unsetEnv "TASTY_TIMEOUT"
+          unsetEnv "TASTY_QUICKCHECK_TESTS"
+          unsetEnv "TASTY_QUICKCHECK_MAX_SIZE"
+
+          
 
 
 testSuite =
@@ -14,5 +23,4 @@ testSuite =
     [
     EvalTest.tests,
     ParserTest.tests
-    -- ...
     ]

@@ -19,8 +19,6 @@ data LangOut =
 -- ^ retuned when the program runs successfully and return a value
  deriving (Show, Eq)
 
-
-
 -- | execute the program as a string and get the result
 exec :: String -> LangOut
 exec s = case (parse parser) s of
@@ -36,6 +34,7 @@ runFile path =
 parseFile path = 
   do program <- readFile path
      return $ parse parsemodule program
+
 
 test1 = exec "module main{\
                 \def p1(){\

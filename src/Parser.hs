@@ -68,12 +68,19 @@ if(...){
 
 
 parseStmt :: Parser Stmt
-parseStmt = ifParser <|> whileParser <|> returnParser <|> seqParser <|> assignParser
+parseStmt = ifParser <|> whileParser <|> returnParser <|> seqParser <|> assignParser <|> parensStmt
 {-
 or you can try
 parseStmts :: Parser [Stmt]
 parseStmts = undefined
 -}
+parensStmt :: Parser Stmt
+parensStmt = do token $ literal "("
+                ast <- parseStmt
+                token $ literal ")"
+                return ast
+
+
 ifParser :: Parser Stmt
 ifParser = do token $ literal "if"
               b <- parseExp 
@@ -149,12 +156,13 @@ orExpr :: Parser Expr
 orExpr = withInfix andExpr [("||",Or)] 
 
 andExpr :: Parser Expr
-andExpr= withInfix ltLteExpr [("&&",And)] 
+andExpr= withInfix comparisonAddSubExpr [("&&",And)] 
 
 
-ltLteExpr :: Parser Expr
-ltLteExpr = withInfix gtGteExpr [("<=",Lte),("<",Lt)]
+comparisonAddSubExpr :: Parser Expr
+comparisonAddSubExpr = withInfix multDivModExpr [("<=",Lte),("<",Lt),(">=",Gte),(">",Gt),("==",Eq),("/=",Ne),("+",Plus),("-",Minus)]
 
+{-|
 gtGteExpr :: Parser Expr
 gtGteExpr = withInfix eqNeExpr [(">=",Gte),(">",Gt)]
 
@@ -163,12 +171,15 @@ eqNeExpr = withInfix addSubExpr [("==",Eq),("/=",Ne)]
 
 addSubExpr :: Parser Expr
 addSubExpr = withInfix multDivExpr [("+",Plus),("-",Minus)] 
+|-}
 
-multDivExpr :: Parser Expr
-multDivExpr= withInfix modExpr [("*",Mult),("/",Div)] 
+multDivModExpr :: Parser Expr
+multDivModExpr= withInfix expExpr [("*",Mult),("/",Div),("%",Mod)] 
 
+{-|
 modExpr :: Parser Expr
 modExpr = withInfix expExpr [("%",Mod)]
+|-}
 
 expExpr :: Parser Expr
 expExpr = withInfix notExpr [("^",Exp)]
@@ -182,9 +193,10 @@ notExpr = (do token (literal "!")
 procCall :: Parser Expr
 procCall = do f <- token $ varParser
               (do token $ literal "("
-                  args <- withInfix (fmap (\x -> [x]) parseExp) [(",", (++))]
-                  token $ literal  ")"
-                  return (Call f args)) <|> (return $ Var f )
+                  ars <- (do args <- withInfix (fmap (\x -> [x]) parseExp) [(",", (++))]
+                             return args) <|> return []
+                  token $ literal ")"
+                  return (Call f ars)) <|> (return $ Var f )
 
 atoms:: Parser Expr
 atoms = ints <|> bools <|> parens <|> procCall <|> vars 

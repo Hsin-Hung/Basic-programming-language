@@ -30,6 +30,7 @@ type State = Map String Val
 
 type Procs = Map String ProcAst
 
+
 getDfn :: String -> StateError String (Map String d) s d
 getDfn s = do e <- getDfns
               case (Map.lookup s e) of
@@ -50,6 +51,7 @@ setVar n v = do e <- getEnv
                 
    
 evalModule :: ModuleAst -> (Either String Val)
+evalModule (ModuleAst n []) = Left "Empty Module!"
 evalModule (ModuleAst n (f:fs)) = let (fn,p) = f
                                       et = runStateError (evalProc p []) (Map.fromList fs) Map.empty -- entry point is main
                                   in  case et of
