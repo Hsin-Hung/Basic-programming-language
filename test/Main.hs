@@ -5,6 +5,7 @@ import Test.Tasty
 
 import EvalTest
 import ParserTest
+import ExampleTest
 
 main = do setEnv "TASTY_TIMEOUT" "60s"
           setEnv "TASTY_QUICKCHECK_TESTS" "1000"
@@ -22,5 +23,6 @@ testSuite =
     "allTests"
     [
     EvalTest.tests,
-    ParserTest.tests
+    ParserTest.tests,
+    ExampleTest.tests
     ]
