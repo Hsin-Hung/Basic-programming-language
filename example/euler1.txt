@@ -1,0 +1,9 @@
+module main{
+  def p1(){
+    counter:=0;
+      out:=0;
+      while (counter<1000){
+        if ((counter%3==0) || (counter%5==0)){
+          out:=out+counter};
+        counter:=counter+1};
+      return out}}
