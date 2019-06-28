@@ -25,12 +25,6 @@ tests = testGroup "ParserTest"
                 ((\ x -> Just (x , "") == (parse parseStmt $ showPrettyStmt x 0)) :: Stmt -> Bool)
 
   ]
-
-instance Arbitrary ModuleAst where -- will work for Ast
-    arbitrary = sized undefined
-
-instance Arbitrary ProcAst where
-    arbitrary = sized undefined
     
 instance Arbitrary Stmt where
     arbitrary = sized arbitrarySizedStmt
