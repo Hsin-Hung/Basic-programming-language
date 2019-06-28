@@ -10,14 +10,7 @@ import ParserMonad
 
 
 
-data LangOut = 
-   ParseError -- ^ retuned when the string could not be parsed
- | RuntimeError String
--- ^ retuned when there is a runtime error
--- first String is the error message
- | Ok Val
--- ^ retuned when the program runs successfully and return a value
- deriving (Show, Eq)
+data LangOut = ParseError | RuntimeError String | Ok Val deriving (Show, Eq)
 
 -- | execute the program as a string and get the result
 exec :: String -> LangOut
