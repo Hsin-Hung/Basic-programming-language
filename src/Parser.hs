@@ -21,7 +21,7 @@ module name {
 }
 -}
 parsemodule :: Parser ModuleAst
-parsemodule = do token $ literal "module"
+parsemodule = do token $ literal "module "
                  name <- token $ varParser
                  token $ literal "{"
                  funcs <- withInfix (fmap (\x -> [x]) parseProcedureBod) [(";", (++))]
@@ -38,7 +38,7 @@ def (x,y,z){
 parseProcedureBod :: Parser (String, ProcAst)
 parseProcedureBod = funcParser
 
-funcParser = do token $ literal "def"
+funcParser = do token $ literal "def "
                 name <- token $ varParser       
                 token $ literal "("
                 p <- (do par <- withInfix (fmap (\x -> [x]) varParser) [(",", (++))]
