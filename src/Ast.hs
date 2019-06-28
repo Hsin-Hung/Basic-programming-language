@@ -48,12 +48,6 @@ comparisons: <, <=, ==, !=
 and perhaps: Nil, Cons and list operations
 -}
 
-{-|
-instance Show ModuleAst where
-  -- display the ast in a readable way
-  show ast = showPretty ast 0
-|-} 
-
 
 instance Show Stmt where
   -- display the ast in a readable way
@@ -66,15 +60,6 @@ instance Show Expr where
   show ast = showPrettyExpr ast 0
 
 -- | output the fully parenthesized statement
-{-|
-showFullyParen :: Ast
-                -> String  -- ^ the fully parenthesized string representing the input Ast
-showFullyParen = undefined
-
-showFullyParenProc :: ProcAst
-                -> String  -- ^ the fully parenthesized string representing the input Ast
-showFullyParenProc = undefined
-|-}
 
 showStmtLst :: [Stmt] -> String
 showStmtLst [] = ""
@@ -114,17 +99,6 @@ showFullyParenExpr (Call s es) = "(" ++ s ++ " " ++ show es ++ ")"
 
 
 -- | provide a nice show with minimal parentheses
-{-|
-showPretty :: Ast  -- ^ The Ast to show
-            -> Integer  -- ^ The precedence of the root expression, see the doc for 'HelpShow.parenthesize' for more detail
-            -> String  -- ^ the minimally parenthesized string representing the input Ast
-showPretty = undefined
-
-showPrettyProc :: ProcAst
-            -> Integer  -- ^ The precedence of the root expression, see the doc for 'HelpShow.parenthesize' for more detail
-            -> String  -- ^ the minimally parenthesized string representing the input Ast
-showPrettyProc = undefined
-|-}
 
 showStmtLstPretty :: [Stmt] -> Integer -> String
 showStmtLstPretty [] i = ""
