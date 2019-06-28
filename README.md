@@ -11,7 +11,7 @@ Jaewoo Kang U00124157
 
 ## Summary
 This language is implemented with a four-level-hierarchy: (1) Module (2) Procedures (3) Statements (4) Expressions. 
-It has a java/python hybrid syntax and its function consists of Arithmetics, Integer and Boolean comparisons, If/Assign/While/Return statements, Function calls, and etc.
+It has a java/python hybrid syntax and its functionalities consist of Arithmetics, Integer and Boolean comparisons, If/Assign/While/Return statements, Function calls, and etc.
 
 ## Plan
 The plan is to implement a language with the describtion in the summary above. 
