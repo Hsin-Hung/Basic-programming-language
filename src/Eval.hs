@@ -128,13 +128,13 @@ evalInt :: Expr -> StateError String Procs State Integer
 evalInt a = do x <- evalExpr a
                case x of 
                 I n -> return n
-                _   ->  StateError (\_ _ -> Left "Not the expected Int!")
+                _   ->  StateError (\_ _ -> Left "Type Error, Expect Integers!")
 
 evalBool :: Expr -> StateError String Procs State Bool
 evalBool a = do x <- evalExpr a
                 case x of 
                   B b -> return b
-                  _   ->  StateError (\_ _ -> Left "Not the expected Bool!")
+                  _   ->  StateError (\_ _ -> Left "Type Error, Expect Booleans!")
                
 
 
