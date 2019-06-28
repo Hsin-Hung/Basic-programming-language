@@ -34,7 +34,13 @@ instance Arbitrary ProcAst where
     
 instance Arbitrary Stmt where
     arbitrary = sized arbitrarySizedStmt
-
+    
+    shrink (Assign x e) = [Assign x e' | e' <- shrink e] 
+    shrink (Return e) = [Return e' | e' <- shrink e]
+    shrink (If e s1 s2) = s1 ++ s2 ++ [If e s1' s2' | (s1', s2') <- shrink (s1, s2)]
+    shrink (While e s1) = s1 ++ [While e s1' | s1' <- shrink s1]
+    shrink _ = []
+    
 arbitrarySizedStmt :: Int -> Gen Stmt
 arbitrarySizedStmt m | m < 1 = do e <- arbitrarySizedExpr m
                                   x <- elements ["x","y","z"]
